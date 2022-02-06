@@ -1,2 +1,10 @@
 ## Sicheres verstecken der Tokens
 src/main/java/secret/Tokenholder.java
+
+## Andere Standartdateien, die man nicht öffentlich braucht
+.gradle
+.idea
+build
+gradle/wrapper/gradle-wrapper.jar
+gradlew
+gradlew.bat
