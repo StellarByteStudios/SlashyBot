@@ -30,6 +30,8 @@ public class SlashyMain {
     public SlashyMain() throws LoginException {
         this.shardManager = configureShardManager();
         System.out.println("Bot geht online");
+        startup();
+        System.out.println("Alle Threads gestartet");
     }
 
 
@@ -52,5 +54,46 @@ public class SlashyMain {
     }
 
 
+    // Startet Alle Threads, die auf Komandos hören
+    public void startup(){
+        startShutDownListener();
+    }
+
+
+
+    // Startet Thread, welcher guckt ob er den Bot runter fahren soll
+    public void startShutDownListener(){
+
+        // Startet Thread zum Auslesen der Konsole
+        new Thread(() -> {
+            // Speichert die Eingabe der Konsole
+            String line = "";
+            // Reader, der die Konsole einliest
+            BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+            try {
+                // Reder guckt, ob es eine neue Eingabe gab, wenn ja, gehts in die While
+                while ((line = reader.readLine()) != null){
+                    // Befehl auslesen
+                    if (line.equalsIgnoreCase("shutdown")){
+                        // Ist überhaut der Bot noch da
+                        if (shardManager != null) {
+                            // Status setzen
+                            shardManager.setStatus(OFFLINE);
+                            // Herunterfahren
+                            shardManager.shutdown();
+                            System.out.println("Bot wird heruntergefahren");
+                        }
+                        // Der Reader muss zum schluss noch geschlossen werden
+                        reader.close();
+                        // Thread wird dadurch beendet
+                        return;
+                    } else {
+                        System.out.println("Shutdown wird so richtig geschrieben");
+                    }
+                }
+            }catch (IOException e){
+                e.printStackTrace();
+            }
+        }).start();
     }
 }
