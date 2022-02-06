@@ -36,8 +36,6 @@ public class SlashyMain {
     }
 
 
-
-
     // Erstellt den Bot und übergibt ihm das wichtigste was er brauch
     public ShardManager configureShardManager() throws LoginException {
         // * * * Startup (Konfiguriert den Bot ganz nackig) * * * //
