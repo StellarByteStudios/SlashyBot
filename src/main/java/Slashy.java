@@ -1,3 +1,4 @@
+import commandManaging.CommandManager;
 import commandManaging.listener.CommandListener;
 import net.dv8tion.jda.api.OnlineStatus;
 import net.dv8tion.jda.api.sharding.DefaultShardManagerBuilder;
@@ -13,26 +14,36 @@ import static net.dv8tion.jda.api.OnlineStatus.OFFLINE;
 import static net.dv8tion.jda.api.entities.Activity.listening;
 import static secret.Tokenholder.BOT_TOKEN;
 
-public class SlashyMain {
+public class Slashy {
+
+    // Selbstreferenz, damit die anderen Programmteile auch auf die Botinstanz zugreifen können
+    public static Slashy INSTANCE;
 
     // Connection zum Bot
     public ShardManager shardManager;
+    // CommandManager command -> magic -> supatolle Antwort
+    private CommandManager commandManager;
 
     public static void main(String[] args) {
         // Wir müssen am Anfang den Bot instanziieren
         try {
-            new SlashyMain();
+            new Slashy();
         } catch (LoginException e) {
             e.printStackTrace();
         }
     }
 
     // Konstruktor der eine Instanz des Bots erzeugt
-    public SlashyMain() throws LoginException {
+    public Slashy() throws LoginException {
+        // Erzeuge die Selbstreferenz
+        INSTANCE = this;
+
+        this.commandManager = new CommandManager();
+        System.out.println("CommandManager gestartet");
         this.shardManager = configureShardManager();
         System.out.println("Bot geht online");
         startup();
-        System.out.println("Alle Threads gestartet");
+        System.out.println("Alle Konsolen Threads gestartet");
     }
 
 
@@ -56,7 +67,7 @@ public class SlashyMain {
     }
 
 
-    // Startet Alle Threads, die auf Komandos hören
+    // Startet Alle Threads, die die Konsole auslesen
     public void startup(){
         startShutDownListener();
     }
@@ -97,5 +108,10 @@ public class SlashyMain {
                 e.printStackTrace();
             }
         }).start();
+    }
+
+    // gibt den Zugriff auf den CommandManager frei
+    public CommandManager getCommandManager() {
+        return commandManager;
     }
 }
