@@ -1,5 +1,5 @@
 ## Sicheres verstecken der Tokens oder ähnliches
-src/main/java/secret
+src/main/java/SlashyBot/secret
 
 ## Andere Standartdateien, die man nicht öffentlich braucht
 .gradle

@@ -1,4 +1,4 @@
-package commandManaging.commands;
+package SlashyBot.commandManaging.commands;
 
 public class CommandStringConstants {
 

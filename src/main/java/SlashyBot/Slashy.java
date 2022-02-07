@@ -1,5 +1,7 @@
-import commandManaging.CommandManager;
-import commandManaging.listener.CommandListener;
+package SlashyBot;
+
+import SlashyBot.commandManaging.CommandManager;
+import SlashyBot.commandManaging.listener.CommandListener;
 import net.dv8tion.jda.api.OnlineStatus;
 import net.dv8tion.jda.api.sharding.DefaultShardManagerBuilder;
 import net.dv8tion.jda.api.sharding.ShardManager;
@@ -12,7 +14,7 @@ import java.io.InputStreamReader;
 
 import static net.dv8tion.jda.api.OnlineStatus.OFFLINE;
 import static net.dv8tion.jda.api.entities.Activity.listening;
-import static secret.Tokenholder.BOT_TOKEN;
+import static SlashyBot.secret.Tokenholder.BOT_TOKEN;
 
 public class Slashy {
 

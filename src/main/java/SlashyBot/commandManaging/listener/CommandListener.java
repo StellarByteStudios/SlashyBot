@@ -1,11 +1,11 @@
-package commandManaging.listener;
+package SlashyBot.commandManaging.listener;
 
 import net.dv8tion.jda.api.entities.ChannelType;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
-import static commandManaging.commands.CommandStringConstants.PREFIX;
+import static SlashyBot.commandManaging.commands.CommandStringConstants.PREFIX;
 
 public class CommandListener extends ListenerAdapter {
 

@@ -1,4 +1,4 @@
-package commandManaging.commands;
+package SlashyBot.commandManaging.commands;
 
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Message;

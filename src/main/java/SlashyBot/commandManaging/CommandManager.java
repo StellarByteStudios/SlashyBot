@@ -1,14 +1,14 @@
-package commandManaging;
+package SlashyBot.commandManaging;
 
-import commandManaging.commands.ClearCommand;
-import commandManaging.commands.ServerCommand;
+import SlashyBot.commandManaging.commands.ClearCommand;
+import SlashyBot.commandManaging.commands.ServerCommand;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.TextChannel;
 
 import java.util.concurrent.ConcurrentHashMap;
 
-import static commandManaging.commands.CommandStringConstants.CLEAR;
+import static SlashyBot.commandManaging.commands.CommandStringConstants.CLEAR;
 
 public class CommandManager {
 
