@@ -28,10 +28,15 @@ public class CommandManager {
 
     public boolean perform(String commandName, Member member, TextChannel channel, Message message){
 
+        // Schaut nach, ob es den Kommand gibt und sucht ihn dann raus
         ServerCommand command = commands.get(commandName.toLowerCase());
+
+        // Überprüft, obs den Command überhaupt gab
         if (command == null){
+            channel.sendMessage("Lern schreiben " + member.getEffectiveName() + ". Den Command gibts garnicht!").queue();
             return false;
         }
+        // Command wird ausgeführt
         command.performCommand(member, channel, message);
         return true;
     }

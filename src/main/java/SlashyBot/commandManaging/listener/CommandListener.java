@@ -1,6 +1,9 @@
 package SlashyBot.commandManaging.listener;
 
+import SlashyBot.Slashy;
 import net.dv8tion.jda.api.entities.ChannelType;
+import net.dv8tion.jda.api.entities.Member;
+import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
@@ -19,19 +22,17 @@ public class CommandListener extends ListenerAdapter {
         }
 
         // Lese den Inhalt der Nachricht als String ein
-        String message = event.getMessage().getContentDisplay();
+        String messageContentAsString = event.getMessage().getContentDisplay();
 
         // wenn die Nachricht nicht mit dem Prefix anfängt -> wegwerfen
-        if (!message.startsWith(PREFIX)){
+        if (!messageContentAsString.startsWith(PREFIX)){
             return;
         }
 
-        // Hole mir den Channel in dem die Nachricht geschrieben wurde
-        TextChannel channel = event.getTextChannel();
-
         // Hole mir den Command + seine Argumente. Wird an Leerzeichen auseinander gezogen
         // Außerdem wird der Präfix weggelöscht
-        String[] fullCommandMessage = message.substring(PREFIX.length()).split(" ");
+        // Der Kommand steht an fullCommandMessage[0] die Argumente dahinter
+        String[] fullCommandMessage = messageContentAsString.substring(PREFIX.length()).split(" ");
 
         // Wurde hinter dem Präfix nix mehr geschrieben
         if (fullCommandMessage.length < 1){
@@ -39,6 +40,13 @@ public class CommandListener extends ListenerAdapter {
             return;
         }
 
+        // Hole mir die Daten für den Perform
+        TextChannel channel = event.getTextChannel();   // Channel in dem die Nachricht geschrieben wurde
+        String commandName = fullCommandMessage[0];     // Command der ausgeführt werden soll
+        Member member = event.getMember();              // Autor des Commands
+        Message message = event.getMessage();           // Inhalt der Nachricht
+
         // Los gehts mit dem verarbeiten der Commands
+        Slashy.INSTANCE.getCommandManager().perform(commandName, member, channel, message);
     }
 }
