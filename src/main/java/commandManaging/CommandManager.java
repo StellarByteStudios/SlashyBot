@@ -6,7 +6,6 @@ import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.TextChannel;
 
-import java.util.Locale;
 import java.util.concurrent.ConcurrentHashMap;
 
 import static commandManaging.commands.CommandStringConstants.CLEAR;
