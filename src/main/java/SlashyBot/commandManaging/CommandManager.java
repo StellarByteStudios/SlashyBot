@@ -7,8 +7,7 @@ import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.TextChannel;
 
 import java.util.concurrent.ConcurrentHashMap;
-
-import static SlashyBot.commandManaging.commands.CommandStringConstants.CLEAR;
+import static SlashyBot.commandManaging.commands.CommandStringConstants.DELETEMESSAGE;
 
 public class CommandManager {
 
@@ -22,7 +21,7 @@ public class CommandManager {
     }
 
     private void loadCommands(){
-        commands.put(CLEAR, new ClearCommand());
+        commands.put(DELETEMESSAGE, new ClearCommand());
     }
 
 
