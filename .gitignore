@@ -1,5 +1,5 @@
-## Sicheres verstecken der Tokens
-src/main/java/secret/Tokenholder.java
+## Sicheres verstecken der Tokens oder ähnliches
+src/main/java/secret
 
 ## Andere Standartdateien, die man nicht öffentlich braucht
 .gradle
