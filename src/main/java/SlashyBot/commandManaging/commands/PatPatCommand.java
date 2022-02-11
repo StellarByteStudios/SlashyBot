@@ -11,8 +11,8 @@ public class PatPatCommand implements ServerCommand{
     public void performCommand(Member member, TextChannel channel, Message message) {
         patpatamount++;
         String patmessage = "";
-        patmessage +=  "Vielen Dank " + member.getEffectiveName() + ". Du hast Slashy Headpats gegeben :)";
-        patmessage += "\nSlashy wurde nun schon " + patpatamount + " mal gepatted :)";
+        patmessage +=  "Vielen Dank " + member.getEffectiveName() + ". Du hast Slashy Headpats gegeben :blush:";
+        patmessage += "\nSlashy wurde nun schon " + patpatamount + " mal gepatted :hugging:";
         channel.sendMessage(patmessage).queue();
     }
 }

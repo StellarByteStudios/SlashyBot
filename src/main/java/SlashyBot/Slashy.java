@@ -57,7 +57,7 @@ public class Slashy {
 
         // * * * Einstellungen * * * //
         // Was macht er gerate
-        builder.setActivity(listening("deinem Bullshit"));
+        builder.setActivity(listening("Male Hentai ASMR"));
         // Onlinestatus
         builder.setStatus(OnlineStatus.ONLINE);
 
