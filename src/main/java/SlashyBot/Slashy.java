@@ -11,6 +11,8 @@ import javax.security.auth.login.LoginException;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.HashSet;
+import java.util.Set;
 
 import static net.dv8tion.jda.api.OnlineStatus.OFFLINE;
 import static net.dv8tion.jda.api.entities.Activity.listening;
@@ -25,6 +27,7 @@ public class Slashy {
     public ShardManager shardManager;
     // CommandManager command -> magic -> supatolle Antwort
     private CommandManager commandManager;
+
 
     public static void main(String[] args) {
         // Wir müssen am Anfang den Bot instanziieren
@@ -50,7 +53,7 @@ public class Slashy {
 
 
     // Erstellt den Bot und übergibt ihm das wichtigste was er brauch
-    public ShardManager configureShardManager() throws LoginException {
+    private ShardManager configureShardManager() throws LoginException {
         // * * * Startup (Konfiguriert den Bot ganz nackig) * * * //
         DefaultShardManagerBuilder builder = DefaultShardManagerBuilder.createDefault("");
         builder.setToken(BOT_TOKEN);
@@ -70,17 +73,16 @@ public class Slashy {
 
 
     // Startet Alle Threads, die die Konsole auslesen
-    public void startup(){
-        startShutDownListener();
+    private void startup(){
+        buildShutDownListener().start();
     }
 
 
-
-    // Startet Thread, welcher guckt ob er den Bot runter fahren soll
-    public void startShutDownListener(){
+    // Baut Thread, welcher guckt ob er den Bot runter fahren soll
+    private Thread buildShutDownListener(){
 
         // Startet Thread zum Auslesen der Konsole
-        new Thread(() -> {
+        return new Thread(() -> {
             // Speichert die Eingabe der Konsole
             String line = "";
             // Reader, der die Konsole einliest
@@ -92,6 +94,8 @@ public class Slashy {
                     if (line.equalsIgnoreCase("shutdown")){
                         // Ist überhaut der Bot noch da
                         if (shardManager != null) {
+                            // Daten Speichern
+                            saveData();
                             // Status setzen
                             shardManager.setStatus(OFFLINE);
                             // Herunterfahren
@@ -109,7 +113,12 @@ public class Slashy {
             }catch (IOException e){
                 e.printStackTrace();
             }
-        }).start();
+        });
+    }
+
+    // Speichert die Daten im CommandManager persistent ab
+    private void saveData(){
+        this.commandManager.saveData();
     }
 
     // gibt den Zugriff auf den CommandManager frei

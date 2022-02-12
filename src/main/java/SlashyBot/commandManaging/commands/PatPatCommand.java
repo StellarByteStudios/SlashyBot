@@ -5,7 +5,15 @@ import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.TextChannel;
 
 public class PatPatCommand implements ServerCommand{
-    private static int patpatamount = 0;
+    private int patpatamount = 0;
+
+    public PatPatCommand(Integer pats) {
+        this.patpatamount = pats;
+    }
+
+    public int getPatpatamount() {
+        return patpatamount;
+    }
 
     @Override
     public void performCommand(Member member, TextChannel channel, Message message) {
