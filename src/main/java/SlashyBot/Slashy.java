@@ -3,6 +3,7 @@ package SlashyBot;
 import SlashyBot.commandManaging.CommandManager;
 import SlashyBot.commandManaging.listener.CommandListener;
 import SlashyBot.threading.SavingThread;
+import SlashyBot.threading.ShutdownlistenerThread;
 import SlashyBot.threading.ThreadModel;
 import net.dv8tion.jda.api.OnlineStatus;
 import net.dv8tion.jda.api.sharding.DefaultShardManagerBuilder;
@@ -29,7 +30,8 @@ public class Slashy {
     public ShardManager shardManager;
     // CommandManager command -> magic -> supatolle Antwort
     private CommandManager commandManager;
-
+    // Sammlung aller Threads die Laufen
+    Set<ThreadModel> threads;
 
     public static void main(String[] args) {
         // Wir müssen am Anfang den Bot instanziieren
@@ -50,7 +52,7 @@ public class Slashy {
         this.shardManager = configureShardManager();
         System.out.println("Bot geht online");
         startup();
-        System.out.println("Alle Konsolen Threads gestartet");
+        System.out.println("Bot wurde eingerichtet");
     }
 
 
@@ -74,15 +76,35 @@ public class Slashy {
     }
 
 
-    // Startet Alle Threads, die die Konsole auslesen
+    // Richtet den Bot weiter ein (starten der Threads)
     private void startup(){
+        createAndSaveThreads();
+        startAllThreads();
     }
 
+    private void startAllThreads() {
+        for (ThreadModel thread : threads) {
+            thread.start();
+        }
+    }
 
+    public void endAllThreads() {
+        for (ThreadModel thread : threads) {
+            thread.endThread();
+        }
+    }
+
+    private void createAndSaveThreads() {
+        // Set erzeugen
+        Set<ThreadModel> createdThreads = new HashSet<>();
+        // Set befüllen
+        createdThreads.add(new ShutdownlistenerThread(INSTANCE));
+        // Set zurückgeben
+        this.threads = createdThreads;
     }
 
     // Speichert die Daten im CommandManager persistent ab
-    private void saveData(){
+    public void saveData(){
         this.commandManager.saveData();
     }
 
