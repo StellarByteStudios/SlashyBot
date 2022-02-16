@@ -2,6 +2,8 @@ package SlashyBot;
 
 import SlashyBot.commandManaging.CommandManager;
 import SlashyBot.commandManaging.listener.CommandListener;
+import SlashyBot.threading.SavingThread;
+import SlashyBot.threading.ThreadModel;
 import net.dv8tion.jda.api.OnlineStatus;
 import net.dv8tion.jda.api.sharding.DefaultShardManagerBuilder;
 import net.dv8tion.jda.api.sharding.ShardManager;
@@ -74,46 +76,9 @@ public class Slashy {
 
     // Startet Alle Threads, die die Konsole auslesen
     private void startup(){
-        buildShutDownListener().start();
     }
 
 
-    // Baut Thread, welcher guckt ob er den Bot runter fahren soll
-    private Thread buildShutDownListener(){
-
-        // Startet Thread zum Auslesen der Konsole
-        return new Thread(() -> {
-            // Speichert die Eingabe der Konsole
-            String line = "";
-            // Reader, der die Konsole einliest
-            BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-            try {
-                // Reder guckt, ob es eine neue Eingabe gab, wenn ja, gehts in die While
-                while ((line = reader.readLine()) != null){
-                    // Befehl auslesen
-                    if (line.equalsIgnoreCase("shutdown")){
-                        // Ist überhaut der Bot noch da
-                        if (shardManager != null) {
-                            // Daten Speichern
-                            saveData();
-                            // Status setzen
-                            shardManager.setStatus(OFFLINE);
-                            // Herunterfahren
-                            shardManager.shutdown();
-                            System.out.println("Bot wird heruntergefahren");
-                        }
-                        // Der Reader muss zum schluss noch geschlossen werden
-                        reader.close();
-                        // Thread wird dadurch beendet
-                        return;
-                    } else {
-                        System.out.println("Shutdown wird so richtig geschrieben");
-                    }
-                }
-            }catch (IOException e){
-                e.printStackTrace();
-            }
-        });
     }
 
     // Speichert die Daten im CommandManager persistent ab
