@@ -99,6 +99,7 @@ public class Slashy {
         Set<ThreadModel> createdThreads = new HashSet<>();
         // Set befüllen
         createdThreads.add(new ShutdownlistenerThread(INSTANCE));
+        createdThreads.add(new SavingThread(INSTANCE));
         // Set zurückgeben
         this.threads = createdThreads;
     }
