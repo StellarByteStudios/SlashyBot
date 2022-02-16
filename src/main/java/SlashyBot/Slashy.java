@@ -2,19 +2,18 @@ package SlashyBot;
 
 import SlashyBot.commandManaging.CommandManager;
 import SlashyBot.commandManaging.listener.CommandListener;
+import SlashyBot.threading.SavingThread;
+import SlashyBot.threading.ShutdownlistenerThread;
+import SlashyBot.threading.ThreadModel;
 import net.dv8tion.jda.api.OnlineStatus;
 import net.dv8tion.jda.api.sharding.DefaultShardManagerBuilder;
 import net.dv8tion.jda.api.sharding.ShardManager;
 
 import javax.security.auth.login.LoginException;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.HashSet;
 import java.util.Set;
 
-import static net.dv8tion.jda.api.OnlineStatus.OFFLINE;
 import static net.dv8tion.jda.api.entities.Activity.listening;
 import static SlashyBot.secret.Tokenholder.BOT_TOKEN;
 
@@ -27,7 +26,8 @@ public class Slashy {
     public ShardManager shardManager;
     // CommandManager command -> magic -> supatolle Antwort
     private CommandManager commandManager;
-
+    // Sammlung aller Threads die Laufen
+    Set<ThreadModel> threads;
 
     public static void main(String[] args) {
         // Wir müssen am Anfang den Bot instanziieren
@@ -48,7 +48,7 @@ public class Slashy {
         this.shardManager = configureShardManager();
         System.out.println("Bot geht online");
         startup();
-        System.out.println("Alle Konsolen Threads gestartet");
+        System.out.println("Bot wurde eingerichtet");
     }
 
 
@@ -72,52 +72,36 @@ public class Slashy {
     }
 
 
-    // Startet Alle Threads, die die Konsole auslesen
+    // Richtet den Bot weiter ein (starten der Threads)
     private void startup(){
-        buildShutDownListener().start();
+        createAndSaveThreads();
+        startAllThreads();
     }
 
+    private void startAllThreads() {
+        for (ThreadModel thread : threads) {
+            thread.start();
+        }
+    }
 
-    // Baut Thread, welcher guckt ob er den Bot runter fahren soll
-    private Thread buildShutDownListener(){
+    public void endAllThreads() {
+        for (ThreadModel thread : threads) {
+            thread.endThread();
+        }
+    }
 
-        // Startet Thread zum Auslesen der Konsole
-        return new Thread(() -> {
-            // Speichert die Eingabe der Konsole
-            String line = "";
-            // Reader, der die Konsole einliest
-            BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-            try {
-                // Reder guckt, ob es eine neue Eingabe gab, wenn ja, gehts in die While
-                while ((line = reader.readLine()) != null){
-                    // Befehl auslesen
-                    if (line.equalsIgnoreCase("shutdown")){
-                        // Ist überhaut der Bot noch da
-                        if (shardManager != null) {
-                            // Daten Speichern
-                            saveData();
-                            // Status setzen
-                            shardManager.setStatus(OFFLINE);
-                            // Herunterfahren
-                            shardManager.shutdown();
-                            System.out.println("Bot wird heruntergefahren");
-                        }
-                        // Der Reader muss zum schluss noch geschlossen werden
-                        reader.close();
-                        // Thread wird dadurch beendet
-                        return;
-                    } else {
-                        System.out.println("Shutdown wird so richtig geschrieben");
-                    }
-                }
-            }catch (IOException e){
-                e.printStackTrace();
-            }
-        });
+    private void createAndSaveThreads() {
+        // Set erzeugen
+        Set<ThreadModel> createdThreads = new HashSet<>();
+        // Set befüllen
+        createdThreads.add(new ShutdownlistenerThread(INSTANCE));
+        createdThreads.add(new SavingThread(INSTANCE));
+        // Set zurückgeben
+        this.threads = createdThreads;
     }
 
     // Speichert die Daten im CommandManager persistent ab
-    private void saveData(){
+    public void saveData(){
         this.commandManager.saveData();
     }
 
