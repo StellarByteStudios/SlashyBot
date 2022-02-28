@@ -53,7 +53,7 @@ public class CommandManager {
             fileInput.close();
 
         } catch (IOException | ClassNotFoundException ioException) {
-            ioException.printStackTrace();
+            System.out.println("Noch kein Savefile vorhanden. Wird beim naesten speichern erstellt");
             countmap.put("pats" , 0);
         }
 
@@ -96,7 +96,19 @@ public class CommandManager {
             fileOutputStream.close();
 
 
-            // Fangen der Exceptions
+        // Fangen der Exceptions
+        } catch (FileNotFoundException exception){
+            // Das File existiert noch nicht, also muss es erzeugt werden
+            // Baue erst den Pfad zusammen
+//            counterfile = new File("");
+//            String pathAbs = counterfile.getAbsolutePath();
+//            String newPath = pathAbs + "\\" + COUNTER_FILE;
+            String newPath = new File("").getAbsolutePath() + "\\" + COUNTER_FILE;
+            // Erzeuge alle Ordner. Wenn diese Vorhanden sind,
+            // wird beim nächsten speichern die Datei automatisch erstellt
+            new File(newPath).getParentFile().mkdirs();
+            // Mitteilung auf der Konsole
+            System.out.println("Ordnerstruktur zum abspeichern erstellt");
         } catch (IOException ioException) {
             ioException.printStackTrace();
         }
