@@ -48,9 +48,5 @@ public class StopCommand implements ServerCommand {
         audioManager.closeAudioConnection();
         // Abschiedsnachricht
         message.addReaction("U+1F44C").queue();
-
-        System.out.println("Erfolgreich gestoppt");
-
-        return;
     }
 }

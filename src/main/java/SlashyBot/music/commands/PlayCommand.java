@@ -62,11 +62,8 @@ public class PlayCommand implements ServerCommand {
                 url = "ytsearch:" + url;
             }
 
+            // Track laden
             audioPlayerManager.loadItem(url, new AudioLoadResult(url, controller));
-            
-            System.out.println("Erfolgreich abgespielt");
-
-
             return;
         }
 
