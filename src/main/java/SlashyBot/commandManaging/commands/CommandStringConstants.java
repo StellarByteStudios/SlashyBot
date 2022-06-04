@@ -7,6 +7,7 @@ public class CommandStringConstants {
 
     // Audiozeug
     public static final String PLAY = "play";
+    public static final String STOP = "stop";
 
 
     // Random Zeug
