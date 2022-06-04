@@ -4,6 +4,7 @@ import SlashyBot.commandManaging.commands.CultureCommand;
 import SlashyBot.commandManaging.commands.DeleteCommand;
 import SlashyBot.commandManaging.commands.PatPatCommand;
 import SlashyBot.commandManaging.commands.ServerCommand;
+import SlashyBot.music.commands.PlayCommand;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.TextChannel;
@@ -34,6 +35,9 @@ public class CommandManager {
         commands.put(DELETE, new DeleteCommand());
         commands.put(PATPAT, new PatPatCommand(counter.get("pats")));
         commands.put(CULTURE, new CultureCommand());
+
+        // Audio Commands
+        commands.put(PLAY, new PlayCommand());
     }
 
     private HashMap<String, Integer> loadCounterMap(){

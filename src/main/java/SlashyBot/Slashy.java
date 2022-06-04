@@ -2,9 +2,13 @@ package SlashyBot;
 
 import SlashyBot.commandManaging.CommandManager;
 import SlashyBot.commandManaging.listener.CommandListener;
+import SlashyBot.music.PlayerManager;
 import SlashyBot.threading.SavingThread;
 import SlashyBot.threading.ShutdownlistenerThread;
 import SlashyBot.threading.ThreadModel;
+import com.sedmelluq.discord.lavaplayer.player.AudioPlayerManager;
+import com.sedmelluq.discord.lavaplayer.player.DefaultAudioPlayerManager;
+import com.sedmelluq.discord.lavaplayer.source.AudioSourceManagers;
 import net.dv8tion.jda.api.OnlineStatus;
 import net.dv8tion.jda.api.sharding.DefaultShardManagerBuilder;
 import net.dv8tion.jda.api.sharding.ShardManager;
@@ -28,6 +32,9 @@ public class Slashy {
     private CommandManager commandManager;
     // Sammlung aller Threads die Laufen
     Set<ThreadModel> threads;
+    // AudioManager, welche den Musicstuff regeln soll
+    public AudioPlayerManager audioPlayerManager;
+    public PlayerManager playerManager;
 
     public static void main(String[] args) {
         // Wir müssen am Anfang den Bot instanziieren
@@ -43,9 +50,13 @@ public class Slashy {
         // Erzeuge die Selbstreferenz
         INSTANCE = this;
 
+        // Command Manager Starten
         this.commandManager = new CommandManager();
         System.out.println("CommandManager gestartet");
+        // ShardManager erstellen und einrichten
         this.shardManager = configureShardManager();
+        // Audiostuff hochfahren
+        audioStartup();
         System.out.println("Bot geht online");
         startup();
         System.out.println("Bot wurde eingerichtet");
@@ -60,7 +71,7 @@ public class Slashy {
 
         // * * * Einstellungen * * * //
         // Was macht er gerate
-        builder.setActivity(listening("Male Hentai ASMR"));
+        builder.setActivity(listening("to his own Rick Role"));
         // Onlinestatus
         builder.setStatus(OnlineStatus.ONLINE);
 
@@ -70,6 +81,18 @@ public class Slashy {
         // Build (Starten des Bots)
         return builder.build();
     }
+
+    // Startet und erstellt alle Klassen und Instanzen für die Audioverwaltung
+    private void audioStartup(){
+        // Audioplayer erstellen und registreiren
+        this.audioPlayerManager = new DefaultAudioPlayerManager();
+        AudioSourceManagers.registerRemoteSources(audioPlayerManager);
+
+        // neuen Playermanager erstellen
+        this.playerManager = new PlayerManager();
+    }
+
+
 
 
     // Richtet den Bot weiter ein (starten der Threads)
