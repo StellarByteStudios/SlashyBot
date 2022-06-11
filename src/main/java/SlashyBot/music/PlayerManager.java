@@ -30,4 +30,18 @@ public class PlayerManager {
         // und zurück geben
         return mc;
     }
+
+
+
+    // eine Guild mit einer Id holen
+    public long getGuildByPlayerHash(int hash) {
+        for (MusicController controller : this.controller.values()) {
+            if (controller.getPlayer().hashCode() == hash){
+                return controller.getGuild().getIdLong();
+            }
+        }
+
+        // Fehler: Keinen Player gefunden
+        return -1;
+    }
 }
