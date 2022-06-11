@@ -47,7 +47,12 @@ public class PlayCommand implements ServerCommand {
             MusicController controller = Slashy.INSTANCE.playerManager.getController(audioChannel.getGuild().getIdLong());
             AudioPlayerManager audioPlayerManager = Slashy.INSTANCE.audioPlayerManager;
             AudioManager audioManager = audioChannel.getGuild().getAudioManager();
-            audioManager.openAudioConnection(audioChannel);
+
+            // Dem VoiceChannel joinen falls nicht conneted
+            if (!audioManager.isConnected()){
+                System.out.println("Es gab noch keine Verbindung");
+                audioManager.openAudioConnection(audioChannel);
+            }
 
             // Übergebene URL zusammensetzten
             StringBuilder stringBuilder = new StringBuilder();
@@ -64,6 +69,9 @@ public class PlayCommand implements ServerCommand {
 
             // Track laden
             audioPlayerManager.loadItem(url, new AudioLoadResult(url, controller));
+
+            // Dem Controller sagen, dass er was spielt
+            controller.setIsPlaying();
             return;
         }
 

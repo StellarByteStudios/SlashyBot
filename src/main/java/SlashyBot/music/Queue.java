@@ -25,6 +25,7 @@ public class Queue {
 
         // Gucken ob die Queue leer ist
         if (this.queueList.size() < 1) {
+            controller.playingStopped();
             return false;
         }
 
@@ -53,6 +54,7 @@ public class Queue {
 
         // Wenn noch nichts abspielt, Player starten
         if (controller.getPlayer().getPlayingTrack() == null){
+            controller.setIsPlaying();
             next();
         }
     }

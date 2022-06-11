@@ -19,11 +19,24 @@ public class AudioLoadResult implements AudioLoadResultHandler {
     // Wenn ein einziger Track angefragt wird
     @Override
     public void trackLoaded(AudioTrack track) {
+
+        // Überprüfen ob der Player schon läuft. Dann nur queuen
+        if (controller.isCurentlyPlaying()){
+            Queue queue = controller.getTrackqueue();
+            queue.enqueue(track);
+
+            // Debugging
+            System.out.println("Es ein Lied enqueued");
+
+            return;
+        }
+
+
         // Überschreibt sofort die aktuelle Wiedergabe
         controller.getPlayer().playTrack(track);
 
         // Debugging
-        System.out.println("Es wurde ein einzelnes Lied gequeued");
+        System.out.println("Es ein neues Lied/Wiedergabe gestarted");
     }
 
     // Wenn eine Playlist geladen wird
