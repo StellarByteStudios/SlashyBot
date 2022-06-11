@@ -42,10 +42,18 @@ public class StopCommand implements ServerCommand {
         AudioManager audioManager = audioChannel.getGuild().getAudioManager();
         AudioPlayer player = controller.getPlayer();
 
+
+        // Debugging
+        System.out.println("Der Player wird gstoppt und die Queue geleert");
+        
         // Audio anhalten
         player.stopTrack();
         // Connection beenden
         audioManager.closeAudioConnection();
+
+        // Liste leeren
+        controller.clearQueue();
+
         // Abschiedsnachricht
         message.addReaction("U+1F44C").queue();
     }
