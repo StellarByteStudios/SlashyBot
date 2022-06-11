@@ -62,6 +62,10 @@ public class Queue {
         this.queueList.clear();
     }
 
+    // Würfelt die Liste durch
+    public void shuffle() {
+        Collections.shuffle(queueList);
+    }
 
 
 
