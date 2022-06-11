@@ -17,7 +17,7 @@ public class SavingThread extends ThreadModel{
     @Override
     protected void loop() {
         slashy.saveData();
-        System.out.println("saving committed");
+//        System.out.println("saving committed");
 
         try {
             Thread.sleep(INTERVALLTIME);
