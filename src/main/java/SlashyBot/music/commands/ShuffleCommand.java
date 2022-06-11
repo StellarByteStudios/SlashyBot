@@ -33,7 +33,6 @@ public class ShuffleCommand implements ServerCommand {
             channel.sendMessage("Error").setEmbeds(builder.build()).queue();
             return;
         }
-        // In welchem Channel ist er (Nachjoinen)
         // Queue des Controllers holen und durchmischeln
         MusicController controller = Slashy.INSTANCE.playerManager.getController(audioChannel.getGuild().getIdLong());
         

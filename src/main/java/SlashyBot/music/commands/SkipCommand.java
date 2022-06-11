@@ -33,7 +33,6 @@ public class SkipCommand implements ServerCommand {
             channel.sendMessage("Error").setEmbeds(builder.build()).queue();
             return;
         }
-        // In welchem Channel ist er (Nachjoinen)
         // Player holen zum stoppen
         MusicController
             controller = Slashy.INSTANCE.playerManager.getController(audioChannel.getGuild().getIdLong());
