@@ -1,7 +1,7 @@
 package SlashyBot.threading;
 
 // Eine Vorlage für alle Treads die ich machen will. Lässt das handling wie
-// starten, stoppen und der gleichen leichert mahcen
+// starten, stoppen und der gleichen leichter machen
 public abstract class ThreadModel extends Thread{
 
     // Solange running true ist, läuft die while in

@@ -10,6 +10,7 @@ public class CommandStringConstants {
     public static final String STOP = "stop";
     public static final String SKIP = "skip";
     public static final String SHUFFLE = "shuffle";
+    public static final String DICE = "dice";
 
 
     // Random Zeug
